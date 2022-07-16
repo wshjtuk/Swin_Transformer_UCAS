@@ -2,8 +2,8 @@
 
     $ conda env create -f swin_env.yaml
 创建完conda环境后，使用
-    $ conda activate swin
-    
+
+     $ conda activate swin
 来进入env。
 同时需要安装编译Nvidia Apex组件
 
