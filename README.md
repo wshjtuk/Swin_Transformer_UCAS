@@ -50,4 +50,4 @@
 
 # 其他配置更改
 可在 *config.py* 中对参数进行修改，或在运行python main.py时增加或修改相关参数。
-
+主要可以就AMP_OPT_LEVEL, FOCALLOSS, 以及MODEL.TYPE等进行修改
