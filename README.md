@@ -60,6 +60,11 @@
     image_path = "../dataset_0703/added_data/test"
 为测试集路径
 
+# Trained Model
+已保存一个目前最优室内装潢设计识别模型在 *"output/ckpt_epoch_0712.pth"* 中，可使用该pth文件进行测试
+
 # 其他配置更改
 可在 *config.py* 中对参数进行修改，或在运行 *python main.py*时增加或修改相关参数。
 主要可以就 *AMP_OPT_LEVEL*, *FOCALLOSS* 以及*MODEL.TYPE*等进行修改
+
+
