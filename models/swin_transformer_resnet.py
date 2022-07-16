@@ -549,7 +549,7 @@ class BasicBlock(nn.Module):
         return F.relu(out)
 
 
-class SwinTransformer(nn.Module):
+class SwinTransformerResnet(nn.Module):
     r""" Swin Transformer
         A PyTorch impl of : `Swin Transformer: Hierarchical Vision Transformer using Shifted Windows`  -
           https://arxiv.org/pdf/2103.14030
@@ -590,8 +590,7 @@ class SwinTransformer(nn.Module):
         self.patch_norm = patch_norm
         self.num_features = int(embed_dim * 2 ** (self.num_layers - 1))
         self.mlp_ratio = mlp_ratio
-        self.resnet = self._make_conv_x(channels=12, blocks=3, strides=2, index=1)
-
+        self.resnet = self._make_conv_x(channels=512, blocks=3, strides=2, index=1)
         # split image into non-overlapping patches
         self.patch_embed = PatchEmbed(
             img_size=img_size, patch_size=patch_size, in_chans=in_chans, embed_dim=embed_dim,
@@ -681,8 +680,6 @@ class SwinTransformer(nn.Module):
         for layer in self.layers[0:2]:
             x = layer(x)
         x = self.resnet(x)
-        layer = self.layers[3]
-        x = layer(x)
         x = self.norm(x)  # B L C
         x = self.avgpool(x.transpose(1, 2))  # B C 1
         x = torch.flatten(x, 1)
