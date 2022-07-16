@@ -2,6 +2,14 @@
 
     $ conda env create -f swin_env.yaml
 同时需要安装编译Nvidia Apex组件
+
+    $ git clone https://github.com/NVIDIA/apex
+    $ cd apex
+    $ pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+可以使用
+
+    from apex import amp
+来确认是否安装和import成功。
 # Data preparation
 使用标准ImageNet数据集结构，对于标准文件夹数据集结构如下：
 
