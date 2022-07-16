@@ -47,3 +47,7 @@
 
     image_path = "../dataset_0703/added_data/test"
 为测试集路径
+
+# 其他配置更改
+可在 *config.py* 中对参数进行修改，或在运行python main.py时增加或修改相关参数。
+
