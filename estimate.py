@@ -67,39 +67,23 @@ checkpoint = torch.load(
 model.load_state_dict(checkpoint['model'], strict=False)
 model.eval()
 model.to(DEVICE)
-image_path = "../dataset_0703/added_data/test"
+image_path = "test/test_image"
 classes = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
 labels = ["00-现代极简", "01-侘寂风格", "02-工业风风格", "03-日式风格", "04-现代简约", "05-现代轻奢", "06-MUJI风格", "07-北欧风格", "08-古典中式", "09-新中式","10-欧式风格","11-美式风格"]
 accurate = 0
 num = 0
-list = [{0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0},
-        {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0}]
-for clas in classes:
-    image_path1 = image_path + '/' + labels[int(clas)]
-    index = 0
-    for dir, folder, files in os.walk(image_path1):
-        for file in files:
-            image_path2 = image_path1 + '/' + file
-            img = Image.open(image_path2).convert('RGB')
-            img = transform_test(img)
-            img.unsqueeze_(0)
-            img = Variable(img).to(DEVICE)
-            out = model(img)
-            _,pred = torch.max(out.data,1)
-            predict = pred.data.item()
-            label = int(clas)
-            if label != predict:
-                print(file, label, predict)
-            list[label][predict] += 1
-for i in list:
-    print(i)
+Note=open('test/result/result.txt',mode='w')
+for dir, folder, files in os.walk(image_path):
+    for file in files:
+        image_path2 = image_path + '/' + file
+        img = Image.open(image_path2).convert('RGB')
+        img = transform_test(img)
+        img.unsqueeze_(0)
+        img = Variable(img).to(DEVICE)
+        out = model(img)
+        _,pred = torch.max(out.data,1)
+        predict = pred.data.item()
+        Note.write(file + " => "+ labels[predict] + '\n')
+        print(file + " => "+ labels[predict])
+        shutil.copyfile(image_path2, "test/result/" + labels[predict] + "/" + file)
+            
